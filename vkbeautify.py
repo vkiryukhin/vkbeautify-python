@@ -1,15 +1,9 @@
 import re
 
 def createShiftArr(step):
-    shift = []
+    shift = ['\n']
     ix = 0
-
-    shift.append('\n') # array of shifts
-
-    if type(step) is int :  # argument is integer
-        space = ' '*step
-    else:                   # argument is string
-        space = step;
+    space = ' '*step if type(step) is int else step
 
     while ix<100:
         shift.append(shift[ix]+space)
@@ -31,19 +25,12 @@ def css(text, step=4):
     ar = re.sub('~::~\s{0,}~::~',"~::~", ar)
     ar = ar.split('~::~')
 
-
-    length = len(ar)
     deep = 0
     str = ''
     ix = 0
+    shift = createShiftArr(step) if step else createShiftArr(step)
 
-    if step:
-        shift = createShiftArr(step)
-    else:
-        createShiftArr(4)
-
-
-    while ix<length:
+    while ix<len(ar):
         if re.search('\{', ar[ix]):
             str += shift[deep]+ar[ix]
             deep = deep+1
@@ -55,7 +42,7 @@ def css(text, step=4):
         else:
             str += shift[deep]+ar[ix]
 
-        ix = ix+1
+        ix += 1
 
 
     return str
