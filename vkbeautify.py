@@ -12,6 +12,25 @@ def createShiftArr(step):
     return shift;
 
 #
+# Beautify XML
+#
+
+def xml(text, step=4):
+
+    ar = re.sub('>\s{0,}<', "><", text)
+    ar = re.sub('<', "~::~<", ar)
+    ar = re.sub('\s*xmlns\:', "~::~xmlns:", ar)
+    ar = re.sub('\s*xmlns\=', "~::~xmlns=", ar)
+    ar = ar.split('~::~')
+
+    #len = ar.length,
+    inComment = False,
+    deep = 0,
+    str = '',
+    ix = 0,
+    shift = createShiftArr(step)
+
+#
 # Beautify CSS
 #
 def css(text, step=4):
@@ -28,8 +47,22 @@ def css(text, step=4):
     deep = 0
     str = ''
     ix = 0
-    shift = createShiftArr(step) if step else createShiftArr(step)
+    shift = createShiftArr(step)
 
+    for item in ar:
+        if re.search('\{', item):
+            str += shift[deep]+item
+            deep = deep+1
+        elif re.search('\}', item):
+            deep = deep-1
+            str += shift[deep]+item
+        elif re.search('\*\\\\', item):
+            str += shift[deep]+item
+        else:
+            str += shift[deep]+item
+
+    return str
+'''
     while ix<len(ar):
         if re.search('\{', ar[ix]):
             str += shift[deep]+ar[ix]
@@ -43,8 +76,8 @@ def css(text, step=4):
             str += shift[deep]+ar[ix]
 
         ix += 1
-
-    return str
+'''
+    #return str
 
 
 #
