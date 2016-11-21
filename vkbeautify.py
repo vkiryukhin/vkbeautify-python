@@ -12,7 +12,7 @@ def createShiftArr(step):
     return shift;
 
 #
-# css
+# Beautify CSS
 #
 def css(text, step=4):
     ar = re.sub('\s{1,}', ' ', text)
@@ -44,8 +44,37 @@ def css(text, step=4):
 
         ix += 1
 
+    return str
+
+
+#
+# Minify CSS
+#
+
+def cssmin(text, preserveComments=True):
+
+    if preserveComments:
+        str = text
+    else:
+        str = re.sub('\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/', '', text)
+
+    str = re.sub('\s{1,}', ' ', str)
+    str = re.sub('\{\s{1,}', '{', str)
+    str = re.sub('\}\s{1,}', '}', str)
+    str = re.sub('\;\s{1,}', ';', str)
+    str = re.sub('\/\*\s{1,}', '/*', str)
+    str = re.sub('\*\/\s{1,}', '*/', str)
 
     return str
+
+
+
+
+
+
+
+
+
 
 
 
