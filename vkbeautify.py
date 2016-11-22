@@ -61,10 +61,7 @@ def xml(text, step=4):
                 str += ar[ix]
          # <elm>...</elm>
         elif re.search('<\w', ar[ix]) and re.search(r'</',ar[ix]):
-            if not inComment:
-                str += shift[deep]+ar[ix]
-            else:
-                str += ar[ix]
+            str = str + shift[deep]+ar[ix] if not inComment else str + ar[ix]
         # </elm>
         elif re.search(r'</', ar[ix]):
             #print(ar[ix])
@@ -75,10 +72,11 @@ def xml(text, step=4):
                 str += ar[ix]
         # <elm/>
         elif re.search('\/>', ar[ix]):
-            if not inComment:
-                str += shift[deep]+ar[ix]
-            else:
-                str += ar[ix]
+            #if not inComment:
+            #    str += shift[deep]+ar[ix]
+            #else:
+            #    str += ar[ix]
+            str = str + shift[deep]+ar[ix] if not inComment else str + ar[ix]
         # <? xml ... ?>
         elif re.search('<\?', ar[ix]):
             str += shift[deep]+ar[ix]
@@ -93,47 +91,12 @@ def xml(text, step=4):
 
 
     return str
-'''
-        else
-         // <elm> //
-        if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) == -1 && ar[ix].search(/\/>/) == -1 ) {
-            str = !inComment ? str += shift[deep++]+ar[ix] : str += ar[ix];
-        } else
-         // <elm>...</elm> //
-        if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) > -1) {
-            str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
-        } else
-        // </elm> //
-        if(ar[ix].search(/<\//) > -1) {
-            str = !inComment ? str += shift[--deep]+ar[ix] : str += ar[ix];
-        } else
-        // <elm/> //
-        if(ar[ix].search(/\/>/) > -1 ) {
-            str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
-        } else
-        // <? xml ... ?> //
-        if(ar[ix].search(/<\?/) > -1) {
-            str += shift[deep]+ar[ix];
-        } else
-        // xmlns //
-        if( ar[ix].search(/xmlns\:/) > -1  || ar[ix].search(/xmlns\=/) > -1) {
-            str += shift[deep]+ar[ix];
-        }
-
-        else {
-            str += ar[ix];
-        }
-    }
-
-    return  (str[0] == '\n') ? str.slice(1) : str;
-'''
-        ##ix += 1
-
 
 
 #
 # Beautify CSS
 #
+
 def css(text, step=4):
     ar = re.sub('\s{1,}', ' ', text)
     ar = re.sub('\{', '{~::~', ar)
