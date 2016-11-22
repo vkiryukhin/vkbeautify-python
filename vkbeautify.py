@@ -64,7 +64,6 @@ def xml(text, step=4):
             str = str + shift[deep]+ar[ix] if not inComment else str + ar[ix]
         # </elm>
         elif re.search(r'</', ar[ix]):
-            #print(ar[ix])
             if not inComment:
                 deep -= 1
                 str += shift[deep]+ar[ix]
@@ -72,10 +71,6 @@ def xml(text, step=4):
                 str += ar[ix]
         # <elm/>
         elif re.search('\/>', ar[ix]):
-            #if not inComment:
-            #    str += shift[deep]+ar[ix]
-            #else:
-            #    str += ar[ix]
             str = str + shift[deep]+ar[ix] if not inComment else str + ar[ix]
         # <? xml ... ?>
         elif re.search('<\?', ar[ix]):
@@ -91,6 +86,20 @@ def xml(text, step=4):
 
 
     return str
+
+
+#
+# minify XML
+#
+
+def xmlmin (text, preserveComments=True):
+
+    str = re.sub('[ \r\n\t]{1,}xmlns', ' xmlns', text)
+
+    if not preserveComments:
+        str = re.sub('\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>', '', str)
+
+    return re.sub('>\s{0,}<', '><', str)
 
 
 #
