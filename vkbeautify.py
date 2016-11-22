@@ -1,13 +1,13 @@
 import re
 
-def createShiftArr(step):
+def _create_shift_arr(step):
     shift = ['\n']
     ix = 0
     space = ' '*step if type(step) is int else step
 
-    while ix<100:
+    while ix < 100:
         shift.append(shift[ix]+space)
-        ix = ix+1
+        ix = ix + 1
 
     return shift;
 
@@ -28,15 +28,18 @@ def xml(text, step=4):
     deep = 0
     str = ''
     ix = 0
-    shift = createShiftArr(step)
+    shift = _create_shift_arr(step)
 
     while ix < length:
         # start comment or <![CDATA[...]]> or <!DOCTYPE
         if re.search('<!', ar[ix]):
-            str += shift[deep]+ar[ix]
+            str += shift[deep] + ar[ix]
             inComment = True
             # end comment  or <![CDATA[...]]>
-            if re.search('-->', ar[ix]) or re.search('\]>', ar[ix]) or re.search('!DOCTYPE',ar[ix]):
+            if (re.search('-->', ar[ix]) or
+                re.search('\]>', ar[ix]) or
+                re.search('!DOCTYPE',ar[ix])
+                ):
                 inComment = False
 
         # end comment  or <![CDATA[...]]>
@@ -46,14 +49,18 @@ def xml(text, step=4):
         # <elm></elm>
         elif ( re.search(r'^<\w',ar[ix-1]) and
                re.search(r'^</\w', ar[ix]) and
-               ( re.search('^<[\w:\-\.\,]+',ar[ix-1]).group(0) == re.sub('/','', re.search(r'^</[\w:\-\.\,]+', ar[ix]).group(0)) )
+               (
+                 re.search('^<[\w:\-\.\,]+',ar[ix-1]).group(0) ==
+                 re.sub('/','', re.search(r'^</[\w:\-\.\,]+', ar[ix]).group(0))
+                )
             ):
             str += ar[ix]
             if not inComment:
                 deep -= 1
 
         # <elm>
-        elif (re.search('<\w',ar[ix]) and not re.search('<\/',ar[ix]) and not re.search('\/>', ar[ix]) ):
+        elif (re.search('<\w',ar[ix]) and not re.search('<\/',ar[ix])
+                                      and not re.search('\/>', ar[ix])):
             if not inComment:
                 str += shift[deep]+ar[ix]
                 deep += 1
@@ -92,12 +99,13 @@ def xml(text, step=4):
 # minify XML
 #
 
-def xmlmin (text, preserveComments=True):
+def xml_min (text, preserveComments=True):
 
     str = re.sub('[ \r\n\t]{1,}xmlns', ' xmlns', text)
+    reg_exp = '\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>'
 
     if not preserveComments:
-        str = re.sub('\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>', '', str)
+        str = re.sub(reg_exp, '', str)
 
     return re.sub('>\s{0,}<', '><', str)
 
@@ -119,7 +127,7 @@ def css(text, step=4):
 
     deep = 0
     str = ''
-    shift = createShiftArr(step)
+    shift = _create_shift_arr(step)
 
     for item in ar:
         if re.search('\{', item):
@@ -139,12 +147,13 @@ def css(text, step=4):
 # Minify CSS
 #
 
-def cssmin(text, preserveComments=True):
+def css_min(text, preserveComments=True):
 
-    if preserveComments:
-        str = text
-    else:
-        str = re.sub('\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/', '', text)
+    str = text
+    reg_exp = '\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/'
+
+    if not preserveComments:
+        str = re.sub(reg_exp, '', text)
 
     str = re.sub('\s{1,}', ' ', str)
     str = re.sub('\{\s{1,}', '{', str)
@@ -154,16 +163,5 @@ def cssmin(text, preserveComments=True):
     str = re.sub('\*\/\s{1,}', '*/', str)
 
     return str
-
-
-
-
-
-
-
-
-
-
-
 
 
