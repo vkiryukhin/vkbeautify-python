@@ -1,24 +1,49 @@
-import sys
+import sys, getopt
 import vkbeautify
 
-def main():
-    #name = sys.argv[1]
-    #print(vkbeautify.greeting('Vadim    Kir', 4))
-    css_str = '.headbg{margin:0 8px  /*display:none*/}a:link,a:focus{color:#00c }a:active{color:red }'
-    #xml_str = '<a><b>bbb</b></a>'
-    xml_str = '<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE foo SYSTEM "Foo.dtd"><a><!--b>bbb</b--><c/><d><soapenv:Envelope xmlns:soapenv="http://xxx" xmlns:xsd="http://yyy" xmlns:xsi="http://zzz"></soapenv></d><e><![CDATA[ <z></z> ]]></e><f><g></g></f></a>'
-    css = vkbeautify.css(css_str);
-    print(css)
-    cssmin = vkbeautify.css_min(css, False)
-    print(cssmin)
-    xml = vkbeautify.xml(xml_str);
-    #print(xml)
+def main(argv):
 
-    xmlmin = vkbeautify.xml_min(xml, False)
+    inputfile = ''
+    outputfile = ''
+    direction = '1'
+    ext = 'xml'
 
-    print(xmlmin)
+    try:
+        opts, args = getopt.getopt(argv,"hi:o:d:",["ifile=","ofile=","direction="])
+    except getopt.GetoptError:
+        print('main.py -i <inputfile> -o <outputfile> -d <direction>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print('main.py -i <inputfile> -o <outputfile> -d <direction>')
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            inputfile = arg
+        elif opt in ("-o", "--ofile"):
+            outputfile = arg
+        elif opt in ("-d", "--direction"):
+            direction = arg
 
-    print(vkbeautify.xml(xmlmin))
+    if not inputfile:
+        print('usage: main.py -i <inputfile> -o <outputfile> -d <direction>'
+               '\ninput file is mandatory')
+        sys.exit(2)
+
+
+    if inputfile[-4:] == '.css':
+        if outputfile:
+            print(vkbeautify.cssfile(inputfile, outputfile, direction))
+        else:
+            print(vkbeautify.cssfile(inputfile, direction))
+    else:
+        if outputfile:
+            print(vkbeautify.xmlfile(inputfile, outputfile, direction))
+        else:
+            print(vkbeautify.xmlfile(inputfile, direction))
+
+    #print(vkbeautify.file(inputfile, outputfile))
 
 if __name__ =='__main__':
-    main()
+    main(sys.argv[1:])
+
+

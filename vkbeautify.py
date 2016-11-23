@@ -1,15 +1,49 @@
-import re
+import sys, re
 
-def _create_shift_arr(step):
-    shift = ['\n']
-    ix = 0
-    space = ' '*step if type(step) is int else step
+##########################################
+#            Preprocessor
+##########################################
 
-    while ix < 100:
-        shift.append(shift[ix]+space)
-        ix = ix + 1
+def xmlfile(source, dest=False, dir=1):
+    return _exec(source, dest, dir, 'xml')
 
-    return shift;
+
+def cssfile(source, dest=False, dir=1):
+    return _exec(source, dest, dir, 'css')
+
+#
+# Process generic file
+#
+
+def _exec(source, dest, dir, mode):
+
+    fn = getattr(sys.modules[__name__], mode)
+    fn_min = getattr(sys.modules[__name__], mode+'_min')
+    text = ''
+
+    with open(source, 'r') as f1:
+        text = f1.read()
+
+    if not dest:          # beautify and print
+        return fn(text)
+
+    if dest.isdigit():
+        if int(dest) == 1: # beautify and print
+            return fn(text)
+        else:              # minify and print
+            return fn_min(text)
+
+    if int(dir) == 1:      # beautify and save in dest file
+        with open(dest, 'w') as f2:
+            return f2.write(fn(text))
+    else:                   # minify and save in dest file
+        with open(dest, 'w') as f2:
+            return f2.write(fn_min(text))
+
+
+##########################################################
+#                     Processor
+##########################################################
 
 #
 # Beautify XML
@@ -88,11 +122,9 @@ def xml(text, step=4):
         else:
             str += ar[ix];
 
-
         ix += 1
 
-
-    return str
+    return str[1:] if str[0] in ['\n','\r'] else str
 
 
 #
@@ -141,7 +173,7 @@ def css(text, step=4):
         else:
             str += shift[deep]+item
 
-    return str
+    return str[1:] if str[0] in ['\n','\r'] else str
 
 #
 # Minify CSS
@@ -163,5 +195,20 @@ def css_min(text, preserveComments=True):
     str = re.sub('\*\/\s{1,}', '*/', str)
 
     return str
+
+##############################################
+#             Helpers
+##############################################
+
+def _create_shift_arr(step):
+    shift = ['\n']
+    ix = 0
+    space = ' '*step if type(step) is int else step
+
+    while ix < 100:
+        shift.append(shift[ix]+space)
+        ix = ix + 1
+
+    return shift;
 
 
