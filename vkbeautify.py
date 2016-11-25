@@ -4,18 +4,18 @@ import sys, re
 #            Preprocessor
 ##########################################
 
-def xmlfile(source, dest=False, dir=1):
-    return _exec(source, dest, dir, 'xml')
+def xmlfile(source, dest=False, act=1):
+    return _exec(source, dest, act, 'xml')
 
 
-def cssfile(source, dest=False, dir=1):
-    return _exec(source, dest, dir, 'css')
+def cssfile(source, dest=False, act=1):
+    return _exec(source, dest, act, 'css')
 
 #
 # Process generic file
 #
 
-def _exec(source, dest, dir, mode):
+def _exec(source, dest, act, mode):
 
     fn = getattr(sys.modules[__name__], mode)
     fn_min = getattr(sys.modules[__name__], mode+'_min')
@@ -33,7 +33,7 @@ def _exec(source, dest, dir, mode):
         else:              # minify and print
             return fn_min(text)
 
-    if int(dir) == 1:      # beautify and save in dest file
+    if int(act) == 1:      # beautify and save in dest file
         with open(dest, 'w') as f2:
             return f2.write(fn(text))
     else:                   # minify and save in dest file
