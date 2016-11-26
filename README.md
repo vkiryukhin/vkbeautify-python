@@ -7,11 +7,7 @@ text in **XML** and **CSS** formats.
 
 **Copyright** (c) 2016 Vadim Kiryukhin ( vkiryukhin @ gmail.com )
 
-**Home page:** [http://www.eslinstructor.net/vkbeautify/](http://www.eslinstructor.net/vkbeautify/)
-
-**License:** MIT:
-
-[http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
+**License:** MIT: [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
 
    **Pretty print**
