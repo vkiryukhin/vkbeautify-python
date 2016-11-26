@@ -5,7 +5,7 @@ def main(argv):
 
     inputfile = ''
     outputfile = ''
-    action = '1'
+    action = False
     ext = 'xml'
 
     try:
@@ -32,14 +32,26 @@ def main(argv):
 
     if inputfile[-4:] == '.css':
         if outputfile:
-            print(vkbeautify.cssfile(inputfile, outputfile, action))
+            if action:
+                print(vkbeautify.css.min(inputfile, outputfile))
+            else:
+                print(vkbeautify.css(inputfile, outputfile))
         else:
-            print(vkbeautify.cssfile(inputfile, action))
+            if action:
+                print(vkbeautify.css.min(inputfile))
+            else:
+                print(vkbeautify.css(inputfile))
     else:
         if outputfile:
-            print(vkbeautify.xmlfile(inputfile, outputfile, action))
+            if action:
+                print(vkbeautify.xml.min(inputfile, outputfile))
+            else:
+                print(vkbeautify.xml(inputfile, outputfile))
         else:
-            print(vkbeautify.xmlfile(inputfile, action))
+            if action:
+                print(vkbeautify.xml.min(inputfile))
+            else:
+                print(vkbeautify.xml(inputfile))
 
     #print(vkbeautify.file(inputfile, outputfile))
 
