@@ -1,5 +1,5 @@
 import sys, getopt
-import vkbeautify
+import vkbeautify as vkb
 
 def main(argv):
 
@@ -32,28 +32,28 @@ def main(argv):
 
     if inputfile[-4:] == '.css':
         if outputfile:
-            if action:
-                print(vkbeautify.css.min(inputfile, outputfile))
+            if action: #minify
+                print(vkb.css.min(inputfile, outputfile, True))
             else:
-                print(vkbeautify.css(inputfile, outputfile))
+                print(vkb.css(inputfile, outputfile))
         else:
-            if action:
-                print(vkbeautify.css.min(inputfile))
+            if action: #minify
+                print(vkb.css.min(inputfile, True))
             else:
-                print(vkbeautify.css(inputfile))
+                print(vkb.css(inputfile))
     else:
         if outputfile:
-            if action:
-                print(vkbeautify.xml.min(inputfile, outputfile))
+            if action: #minify
+                print(vkb.xml.min(inputfile, outputfile, True))
             else:
-                print(vkbeautify.xml(inputfile, outputfile))
+                print(vkb.xml(inputfile, outputfile))
         else:
-            if action:
-                print(vkbeautify.xml.min(inputfile))
+            if action: #minify
+                print(vkb.xml.min(inputfile, True))
             else:
-                print(vkbeautify.xml(inputfile))
+                print(vkb.xml(inputfile))
 
-    #print(vkbeautify.file(inputfile, outputfile))
+    #print(vkb.file(inputfile, outputfile))
 
 if __name__ =='__main__':
     main(sys.argv[1:])

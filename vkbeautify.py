@@ -6,33 +6,55 @@ import sys, re, os.path
 
 def xml(src, dest=False, shift=4):
 
-    text = _get_text(src)
-
     if not dest:
-        return _xml(text) # returns string
-
-    if dest:
+        return _xml(_text(src)) # returns string
+    else:
         if type(dest) is int:  # dest is skept, custom pattern provided at dist place
-            return _xml(text, dest)
+            return _xml(_text(src), dest)
         else:
             with open(dest, 'w') as f2:
-                return f2.write(_xml(text, shift))
+                return f2.write(_xml(_text(src), shift))
 
 
 def css(src, dest=False, shift=4):
 
-    text = _get_text(src)
-
     if not dest: # all default
-        return _css(text)
-
-    if dest:
+        return _css(_text(src))
+    else:
         if type(dest) is int:  #dest is skept, custom pattern provided at dist place
-            return _css(text, dest)
+            return _css(_text(src), dest)
         else:
             with open(dest, 'w') as f2:
-                return f2.write(_css(text, shift))
+                return f2.write(_css(_text(src), shift))
 
+
+def _xml_min(src, dest=False, preserve_comments=True):
+
+    if not dest:
+        return _xml_min_exec(_text(src), preserve_comments) # returns string
+    else:
+        if type(dest) is bool:  # dest is skept, custom pattern provided at dist place
+            return _xml_min_exec(_text(src), dest)
+        else:
+            with open(dest, 'w') as f2:
+                return f2.write(_xml_min_exec(_text(src), preserve_comments))
+
+
+def _css_min(src, dest=False, preserve_comments=True):
+
+    if not dest: # all default
+        return _css_min_exec(_text(src), preserve_comments)
+    else:
+        if type(dest) is bool:  #dest is skept, custom pattern provided at dist place
+            return _css_min_exec(_text(src), preserve_comments)
+        else:
+            with open(dest, 'w') as f2:
+                return f2.write(_css_min_exec(_text(src), preserve_comments))
+
+
+# adding minify function as attribute
+xml.min = _xml_min
+css.min = _css_min
 
 ##########################################################
 #                  XML Processor
@@ -116,7 +138,7 @@ def _xml(text, step=4):
     return str[1:] if str[0] in ['\n','\r'] else str
 
 
-def _xml_min (text, preserveComments=True):
+def _xml_min_exec (text, preserveComments=True):
 
     str = re.sub('[ \r\n\t]{1,}xmlns', ' xmlns', text)
     reg_exp = '\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>'
@@ -126,8 +148,6 @@ def _xml_min (text, preserveComments=True):
 
     return re.sub('>\s{0,}<', '><', str)
 
-
-#xml.min = _xml_min
 
 ##########################################################
 #                  CSS Processor
@@ -163,7 +183,7 @@ def _css(text, step=4):
     return str[1:] if str[0] in ['\n','\r'] else str
 
 
-def _css_min(text, preserveComments=True):
+def _css_min_exec(text, preserveComments=True):
 
     str = text
     reg_exp = '\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/'
@@ -195,8 +215,8 @@ def _create_shift_arr(step):
 
     return shift;
 
-def _get_text(src):
 
+def _text(src):
     if(os.path.isfile(src)):  # load data from file
         with open(src, 'r') as f1:
             return f1.read()
@@ -204,8 +224,5 @@ def _get_text(src):
     return src
 
 
-# adding minify function as attribute
-xml.min = _xml_min
-css.min = _css_min
 
 
