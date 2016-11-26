@@ -15,47 +15,52 @@ text in **XML** and **CSS** formats.
 
 
    **Pretty print**
-
+```
         vkbeautify.xml(src [,dest, [,tab_size]);
         vkbeautify.css(src [,dest, [,tab_size]);
 
 
-        @src - XML string or path to XML file to beatufy;
-        @dest - path to file to save beautified data (optional)
+        @src      - XML string or path to XML file to beatufy;
+        @dest     - path to file to save beautified data (optional)
         @tab_size - number of white spaces to shift (optional; default is 4)
 
-  **Minify**
+        @return - string (if @dest is not provided)
+                  int (length of saved file) if @dest is provided
+```
 
+  **Minify**
+```
         vkbeautify.xml.min(src [,dest [,preserve_comments]]);
         vkbeautify.css.min(src [,dest [,preserve_comments]]);
 
-        @src - XML string or path to XML file to beatufy;
-        @dest - path to file to save beautified data (optional)
-        vkbeautify.css.min(src [,dest [,preserve_comments]]);
-
-        @src - XML string or path to XML file to minify;
+        @src   - XML string or path to XML file to minify;
+        @dest  - path to file to save beautified data (optional)
         @preserve_comments - bool (optional, default is True);
-                Set this flag to False to remove comments from @src
+                            Set this flag to False to remove comments from @src
+
+        @return - string (if @dest is not provided)
+                  int (length of saved file) if @dest is provided
+```
 
    **Examples**
+```python
+import vkbeautify as vkb
 
-        import vkbeautify as vkb
-
-        vkb.xml(text);
-        vkb.xml(text, 'path/to/dest/file');
-        vkb.xml('path/to/src/file');
-        vkb.xml('path/to/src/file', 'path/to/dest/file');
-        vkb.xml('path/to/src/file', 8);
-        vkb.xml('path/to/src/file', 'path/to/dest/file', 5);
+vkb.xml(text)
+vkb.xml(text, 'path/to/dest/file')
+vkb.xml('path/to/src/file')
+vkb.xml('path/to/src/file', 'path/to/dest/file')
+vkb.xml('path/to/src/file', 8)
+vkb.xml('path/to/src/file', 'path/to/dest/file', 5)
 
 
-        vkb.xml.min(text);
-        vkb.xml.min(text, 'path/to/dest/file');
-        vkb.xml.min('path/to/src/file');
-        vkb.xml.min('path/to/src/file', 'path/to/dest/file');
-        vkb.xml.min('path/to/src/file', False);
-        vkb.xml.min('path/to/src/file', 'path/to/dest/file', False);
-
+vkb.xml.min(text)
+vkb.xml.min(text, 'path/to/dest/file')
+vkb.xml.min('path/to/src/file')
+vkb.xml.min('path/to/src/file', 'path/to/dest/file')
+vkb.xml.min('path/to/src/file', False)
+vkb.xml.min('path/to/src/file', 'path/to/dest/file', False)
+```
 
 
 
