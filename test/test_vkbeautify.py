@@ -1,4 +1,5 @@
-import unittest
+import sys, os, unittest
+sys.path.append(os.getcwd()+ '/..')
 import vkbeautify as vkb
 
 class VkbeautifyTest(unittest.TestCase):

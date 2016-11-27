@@ -1,4 +1,5 @@
-import sys, getopt
+import sys, getopt, os
+sys.path.append(os.getcwd()+ '/..')
 import vkbeautify as vkb
 
 def main(argv):
