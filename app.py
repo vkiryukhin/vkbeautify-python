@@ -6,7 +6,6 @@ def main(argv):
     inputfile = ''
     outputfile = ''
     action = False
-    ext = 'xml'
 
     try:
         opts, args = getopt.getopt(argv,"hi:o:a:",["ifile=","ofile=","action="])
@@ -15,7 +14,10 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('main.py -i <inputfile> -o <outputfile> -a <action>')
+            print('usage: app.py -i <inputfile> -o <outputfile> -a <action>')
+            print('       beautify: no  <action> ')
+            print('       minify:   set <action> to 1')
+
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg
@@ -53,7 +55,6 @@ def main(argv):
             else:
                 print(vkb.xml(inputfile))
 
-    #print(vkb.file(inputfile, outputfile))
 
 if __name__ =='__main__':
     main(sys.argv[1:])
