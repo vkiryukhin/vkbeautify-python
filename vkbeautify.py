@@ -81,7 +81,7 @@ def css(src, dest=False, shift=4):
 
 
 def _xml_min(src, dest='', preserve_comments=True):
-"""Minify XML
+    """Minify XML
 
     Args:
         src: xml string or path-to-file with text to minify (mandatory)
@@ -100,6 +100,7 @@ def _xml_min(src, dest='', preserve_comments=True):
             xml.min('path/to/file.xml', False)
             xml.min('path/to/file.xml', 'path/to/save/result.xml', False)
     """
+
     if dest == '':
         return _xml_min_exec(_text(src)) # returns string
     else:
