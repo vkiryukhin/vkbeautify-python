@@ -5,7 +5,33 @@ import sys, re, os.path
 ##########################################
 
 def xml(src, dest=False, shift=4):
+    """Beautify XML
 
+    Args:
+        src: xml string or path-to-file with text to beautify (mandatory)
+        dest: path-to-file to save beautified xml string; if file doesn't exist
+              it is created automatically; (optional)
+              if this arg is skept function returns string
+        shift: can be either integer or string
+                1) if int - number of spaces in tab, for example shift=8
+                <a>
+                        <b></b>
+                </a>
+               2) if string - pattern, for example shift='....'
+                <a>
+                ....<b></b>
+                </a>
+
+    Returns: 1) beautified XML string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            xml('path/to/file.xml')
+            xml('path/to/file.xml', 'path/to/save/result.xml')
+            xml('path/to/file.xml', 8)
+            xml('path/to/file.xml', '____')
+            xml('path/to/file.xml', 'path/to/save/result.xml', 2)
+    """
     if not dest:
         return _xml(_text(src)) # returns string
     else:
@@ -17,7 +43,33 @@ def xml(src, dest=False, shift=4):
 
 
 def css(src, dest=False, shift=4):
+    """Beautify CSS
 
+    Args:
+        src: css string or path-to-file with text to beautify (mandatory)
+        dest: path-to-file to save beautified css string; if file doesn't exist
+              it is created automatically; (optional)
+              if this arg is skept function returns string
+        shift: can be either integer or string
+                1) if int - number of spaces in tab, for example shift=8
+                <a>
+                        <b></b>
+                </a>
+               2) if string - pattern, for example shift='....'
+                <a>
+                ....<b></b>
+                </a>
+
+    Returns: 1) beautified XML string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            css('path/to/file.css')
+            css('path/to/file.css', 'path/to/save/result.css')
+            css('path/to/file.css', 8)
+            css('path/to/file.css', '____')
+            css('path/to/file.css', 'path/to/save/result.css', 2)
+    """
     if not dest: # all default
         return _css(_text(src))
     else:
@@ -29,7 +81,25 @@ def css(src, dest=False, shift=4):
 
 
 def _xml_min(src, dest='', preserve_comments=True):
+"""Minify XML
 
+    Args:
+        src: xml string or path-to-file with text to minify (mandatory)
+        dest: path-to-file to save minified xml string; if file doesn't exist
+              it is created automatically; (optional)
+              if this arg is skept function returns string
+        preserve_comments: if set False, all comments are removed from minified text
+                           default is True (comments are preserved)
+
+    Returns: 1) minified XML string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            xml.min('path/to/file.xml')
+            xml.min('path/to/file.xml', 'path/to/save/result.xml')
+            xml.min('path/to/file.xml', False)
+            xml.min('path/to/file.xml', 'path/to/save/result.xml', False)
+    """
     if dest == '':
         return _xml_min_exec(_text(src)) # returns string
     else:
@@ -41,6 +111,25 @@ def _xml_min(src, dest='', preserve_comments=True):
 
 
 def _css_min(src, dest='', preserve_comments=True):
+    """Minify CSS
+
+    Args:
+        src: css string or path-to-file with text to beautify (mandatory)
+        dest: path-to-file to save beautified css string; if file doesn't exist
+              it is created automatically; (optional)
+              if this arg is skept function returns string
+        preserve_comments: if set False, all comments are removed from minified text
+                           default is True (comments are preserved)
+
+    Returns: 1) minified CSS string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            css.min('path/to/file.css')
+            css.min('path/to/file.css', 'path/to/save/result.css')
+            css.min('path/to/file.css', False)
+            css.min('path/to/file.css', 'path/to/save/result.css', False)
+    """
 
     if dest == '': # all default
         return _css_min_exec(_text(src))
@@ -51,8 +140,7 @@ def _css_min(src, dest='', preserve_comments=True):
             with open(dest, 'w') as f2:
                 return f2.write(_css_min_exec(_text(src), preserve_comments))
 
-
-# adding minify function as attribute
+# to make interface user friendly let's add minify function as attribute
 xml.min = _xml_min
 css.min = _css_min
 
