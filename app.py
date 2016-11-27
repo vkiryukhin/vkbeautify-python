@@ -44,12 +44,12 @@ def main(argv):
     else:
         if outputfile:
             if action: #minify
-                print(vkb.xml.min(inputfile, outputfile, True))
+                print(vkb.xml.min(inputfile, outputfile, False))
             else:
                 print(vkb.xml(inputfile, outputfile))
         else:
             if action: #minify
-                print(vkb.xml.min(inputfile, True))
+                print(vkb.xml.min(inputfile, False))
             else:
                 print(vkb.xml(inputfile))
 

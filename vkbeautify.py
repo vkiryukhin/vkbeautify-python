@@ -28,10 +28,10 @@ def css(src, dest=False, shift=4):
                 return f2.write(_css(_text(src), shift))
 
 
-def _xml_min(src, dest=False, preserve_comments=True):
+def _xml_min(src, dest='', preserve_comments=True):
 
-    if not dest:
-        return _xml_min_exec(_text(src), preserve_comments) # returns string
+    if dest == '':
+        return _xml_min_exec(_text(src)) # returns string
     else:
         if type(dest) is bool:  # dest is skept, custom pattern provided at dist place
             return _xml_min_exec(_text(src), dest)
@@ -40,13 +40,13 @@ def _xml_min(src, dest=False, preserve_comments=True):
                 return f2.write(_xml_min_exec(_text(src), preserve_comments))
 
 
-def _css_min(src, dest=False, preserve_comments=True):
+def _css_min(src, dest='', preserve_comments=True):
 
-    if not dest: # all default
-        return _css_min_exec(_text(src), preserve_comments)
+    if dest == '': # all default
+        return _css_min_exec(_text(src))
     else:
         if type(dest) is bool:  #dest is skept, custom pattern provided at dist place
-            return _css_min_exec(_text(src), preserve_comments)
+            return _css_min_exec(_text(src), dest)
         else:
             with open(dest, 'w') as f2:
                 return f2.write(_css_min_exec(_text(src), preserve_comments))

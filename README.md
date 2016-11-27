@@ -16,7 +16,7 @@ text in **XML** and **CSS** formats.
         vkbeautify.css(src [,dest, [,tab_size]);
 
 
-        @src      - XML string or path to XML file to beatufy;
+        @src      - XML string or path to XML file to beautify;
         @dest     - path to file to save beautified data (optional)
         @tab_size - number of white spaces to shift (optional; default is 4)
 
