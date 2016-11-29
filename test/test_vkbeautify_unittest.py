@@ -52,6 +52,3 @@ class VkbeautifyTest(unittest.TestCase):
         css_mini = vkb.css.min('.head{\n    margin:0 8px;\n    /*display:none*/\n}\na:active{\n    color:red\n}', False)
         self.assertEqual(css_mini, css_expected)
 
-
-if __name__ == '__main__':
-    unittest.main()
