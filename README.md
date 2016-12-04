@@ -1,7 +1,10 @@
 # vkBeautify
 
-Python  plugin to **pretty-print** or **minify**
-text in **XML** and **CSS** formats.
+Python  plugin to **pretty-print** or **minify** text in following formats:
+
+* **XML**
+* **JSON**
+* **CSS**
 
 **Version** - 0.3.0
 
