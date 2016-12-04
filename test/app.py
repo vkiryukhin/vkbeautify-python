@@ -44,7 +44,20 @@ def main(argv):
                 print(vkb.css.min(inputfile, True))
             else:
                 print(vkb.css(inputfile))
-    else:
+
+    if inputfile[-5:] == '.json':
+        if outputfile:
+            if action: #minify
+                print(vkb.json.min(inputfile, outputfile))
+            else:
+                print(vkb.json(inputfile, outputfile))
+        else:
+            if action: #minify
+                print(vkb.json.min(inputfile))
+            else:
+                print(vkb.json(inputfile))
+
+    if inputfile[-4:] == '.css':
         if outputfile:
             if action: #minify
                 print(vkb.xml.min(inputfile, outputfile, False))

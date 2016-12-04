@@ -42,6 +42,44 @@ def xml(src, dest=False, shift=4):
                 return f2.write(_xml(_text(src), shift))
 
 
+def json(src, dest=False, shift=4):
+    """Beautify JSON
+
+    Args:
+        src: JSON string or path-to-file with text to beautify (mandatory)
+        dest: path-to-file to save beautified json string; (optional)
+              if file doesn't exist it is created automatically;
+              if this arg is skept function returns string
+        shift: can be either integer or string (optional)
+                1) if shift is int: number of spaces in tab, for example shift=8
+                <a>
+                        <b></b>
+                </a>
+               2) if shift is string: pattern (for example shift='....' )
+                <a>
+                ....<b></b>
+                </a>
+
+    Returns: 1) beautified JSON string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            json('path/to/file.json')
+            json('path/to/file.json', 'path/to/save/result.json')
+            json('path/to/file.json', 8)
+            json('path/to/file.json', '____')
+            json('path/to/file.json', 'path/to/save/result.json', 2)
+    """
+    if not dest:
+        return _json(_text(src)) # returns string
+    else:
+        if type(dest) is int:  # dest is skept, custom pattern provided at dist place
+            return _json(_text(src), dest)
+        else:
+            with open(dest, 'w') as f2:
+                return f2.write(_json(_text(src), shift))
+
+
 def css(src, dest=False, shift=4):
     """Beautify CSS
 
@@ -111,6 +149,35 @@ def _xml_min(src, dest='', preserve_comments=True):
                 return f2.write(_xml_min_exec(_text(src), preserve_comments))
 
 
+
+def _json_min(src, dest=''):
+    """Minify JSON
+
+    Args:
+        src: json string or path-to-file with text to minify (mandatory)
+        dest: path-to-file to save minified xml string; (optional)
+              - if file doesn't exist it is created automatically;
+              - if this arg is skept function returns string
+
+    Returns: 1) minified JSON string if dest is not provided
+             2) length of saved file if dest is provided
+
+    Example:
+            json.min('path/to/file.json')
+            json.min('path/to/file.json', 'path/to/save/result.json')
+    """
+
+    if dest == '':
+        return _json_min_exec(_text(src)) # returns string
+    else:
+        if type(dest) is bool:  # dest is skept, custom pattern provided at dist place
+            return _json_min_exec(_text(src), dest)
+        else:
+            with open(dest, 'w') as f2:
+                return f2.write(_json_min_exec(_text(src)))
+
+
+
 def _css_min(src, dest='', preserve_comments=True):
     """Minify CSS
 
@@ -143,6 +210,7 @@ def _css_min(src, dest='', preserve_comments=True):
 
 # to make interface user friendly let's add minify function as attribute
 xml.min = _xml_min
+json.min = _json_min
 css.min = _css_min
 
 ##########################################################
@@ -237,6 +305,71 @@ def _xml_min_exec (text, preserveComments=True):
 
     return re.sub('>\s{0,}<', '><', str)
 
+
+##########################################################
+#                  JSON Processor
+##########################################################
+
+def _json(text, step=4):
+
+    ar = _json_min_exec(text)
+
+    ar = re.sub("\{", "~::~{~::~", ar)
+    ar = re.sub("\[", "[~::~", ar)
+    ar = re.sub("\}", "~::~}", ar)
+    ar = re.sub("\]", "~::~]", ar)
+    ar = re.sub("\"\,", '",~::~', ar)
+    ar = re.sub("\,\"", ',~::~"', ar)
+    ar = re.sub("\]\,", '],~::~', ar)
+    ar = re.sub("~::~\s{0,}~::~", "~::~", ar)
+    ar = ar.split('~::~')
+
+    deep = 0
+    str = ''
+
+    shift = _create_shift_arr(step)
+
+    for item in ar:
+        if re.search('\{', item):
+            str += shift[deep] + item
+            deep += 1
+        elif re.search('\[', item):
+            str += shift[deep] + item
+            deep += 1
+        elif re.search('\]', item):
+            deep -= 1
+            str += shift[deep] + item
+        elif re.search('\}', item):
+            deep -= 1
+            str += shift[deep] + item
+        else:
+            str += shift[deep] + item
+
+    str = re.sub('(\[\s*?\])', '[]', str)
+    str = re.sub('^\n{1,}',' ', str)
+
+    return str
+
+
+def _json_min_exec(text):
+    str = ''
+
+    str = re.sub('\s{0,}\{\s{0,}', '{', text)
+    str = re.sub('\s{0,}\[$', '[', str)
+    str = re.sub('\[\s{0,}', '[', str)
+    str = re.sub(':\s{0,}\[',':[', str)
+    str = re.sub('\s{0,}\}\s{0,}', '}', str)
+    str = re.sub('\s{0,}\]\s{0,}',']', str)
+    str = re.sub('\"\s{0,}\,', '",', str)
+    str = re.sub('\,\s{0,}\"', ',"', str)
+    str = re.sub('\"\s{0,}:', '":', str)
+    str = re.sub(':\s{0,}\"', ':"', str)
+    str = re.sub(':\s{0,}\[', ':[', str)
+    str = re.sub('\,\s{0,}\[', ',[', str)
+    str = re.sub('\,\s{2,}',   ', ', str)
+    str = re.sub('\]\s{0,},\s{0,}\[', '],[', str)
+
+    return str
 
 ##########################################################
 #                  CSS Processor
