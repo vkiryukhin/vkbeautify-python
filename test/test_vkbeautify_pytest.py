@@ -37,6 +37,36 @@ def test_xml_minify_and_save(tmpdir):
     assert xml_mini == 19
 
 #
+# Testing JSON
+#
+
+def test_json_beautify():
+    json_expected = ' {\n    "menu":\n    {\n        "id":"file"\n    }\n}'
+    json_pretty = vkb.json('{"menu":{"id":"file"}}')
+    assert json_pretty == json_expected
+
+def test_json_beautify_with_custom_tab():
+    json_expected = ' {\n  "menu":\n  {\n    "id":"file"\n  }\n}'
+    json_pretty = vkb.json('{"menu":{"id":"file"}}', 2) #set tab 2 spaces
+    assert json_pretty == json_expected
+
+def test_json_minify():
+    json_expected = '{"menu":{"id":"file"}}'
+    json_mini = vkb.json.min(' {\n  "menu":\n  {\n    "id":"file"\n  }\n}')
+    assert json_mini == json_expected
+
+def test_xml_beautify_and_save(tmpdir):
+    file = tmpdir.join('output.json')
+    json_pretty = vkb.json('{"menu":{"id":"file"}}', file.strpath)
+    assert json_pretty == 48
+
+def test_xml_minify_and_save(tmpdir):
+    file = tmpdir.join('output.json')
+    json_mini = vkb.json.min(' {\n  "menu":\n  {\n    "id":"file"\n  }\n}', file.strpath)
+    assert json_mini == 22
+
+
+#
 # Testing CSS
 #
 

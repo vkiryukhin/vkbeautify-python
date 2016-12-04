@@ -28,6 +28,27 @@ class VkbeautifyTest(unittest.TestCase):
         xml_mini = vkb.xml.min('<a><!--b></b--></a>', False)
         self.assertEqual(xml_mini, xml_expected)
 
+
+    #
+    # Testing JSON
+    #
+
+    def test_json_beautify(self):
+        json_expected = ' {\n    "menu":\n    {\n        "id":"file"\n    }\n}'
+        json_pretty = vkb.json('{"menu":{"id":"file"}}')
+        self.assertEqual(json_pretty, json_expected)
+
+    def test_json_beautify_with_custom_tab(self):
+        json_expected = ' {\n  "menu":\n  {\n    "id":"file"\n  }\n}'
+        json_pretty = vkb.json('{"menu":{"id":"file"}}', 2) #set tab 2 spaces
+        self.assertEqual(json_pretty, json_expected)
+
+    def test_json_minify(self):
+        json_expected = '{"menu":{"id":"file"}}'
+        json_mini = vkb.json.min(' {\n  "menu":\n  {\n    "id":"file"\n  }\n}')
+        self.assertEqual(json_mini, json_expected)
+
+
     #
     # Testing CSS
     #
