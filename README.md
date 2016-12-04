@@ -62,8 +62,22 @@ vkb.xml.min('path/to/src/file', 'path/to/dest/file')
 vkb.xml.min('path/to/src/file', False)
 vkb.xml.min('path/to/src/file', 'path/to/dest/file', False)
 ```
+To play with this plugin in UNIX terminal use test/app.py application
+```
+usage: app.py -i <inputfile> -o <outputfile> -a <action>
+       to beautify: no  <action>
+       to minify:   set <action> to min
 
+you can use demo files from the package:
+basic.xml,  basic.min.xml
+basic.json, basic.min.json
+basic.css,  basic.min.css
+```
+Example:
+```
+python3 app.py -i basic.min.json                   # beautify file and print in terminal
+python3 app.py -i basic.min.json -o result.json    # beautify file and save in file
 
-
-
-
+python3 app.py -i basic.json -a min                 # minify file and print in terminal
+python3 app.py -i basic.json -o result.json -a min  # minify file and save in file
+```
