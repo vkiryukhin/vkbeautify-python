@@ -13,29 +13,31 @@ text in **XML** and **CSS** formats.
    **Pretty print**
 ```
         vkbeautify.xml(src [,dest, [,tab_size]);
+        vkbeautify.json(src [,dest, [,tab_size]);
         vkbeautify.css(src [,dest, [,tab_size]);
 
 
-        @src      - XML string or path to XML file to beautify;
-        @dest     - path to file to save beautified data (optional)
-        @tab_size - number of white spaces to shift (optional; default is 4)
+        @src:       XML string or path to XML file to beautify;
+        @dest:      path to file to save beautified data (optional)
+        @tab_size:  number of white spaces to shift (optional; default is 4)
 
-        @return - string (if @dest is not provided)
-                  int (length of saved file) if @dest is provided
+        @return:  - string (if @dest is not provided)
+                  - int (length of saved file) if @dest is provided
 ```
 
   **Minify**
 ```
         vkbeautify.xml.min(src [,dest [,preserve_comments]]);
+        vkbeautify.json.min(src [,dest]);
         vkbeautify.css.min(src [,dest [,preserve_comments]]);
 
-        @src   - XML string or path to XML file to minify;
-        @dest  - path to file to save beautified data (optional)
-        @preserve_comments - bool (optional, default is True);
+        @src:   XML string or path to XML file to minify;
+        @dest:  path to file to save beautified data (optional)
+        @preserve_comments: bool (optional, default is True);
                             Set this flag to False to remove comments from @src
 
-        @return - string (if @dest is not provided)
-                  int (length of saved file) if @dest is provided
+        @return:  - string (if @dest is not provided)
+                  - int (length of saved file) if @dest is provided
 ```
 
    **Examples**
