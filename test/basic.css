@@ -1,1 +1,10 @@
-.headbg{margin:0 8px /*display:none*/ } a:link,a:focus{   color:#00c } a:active{   color:red }
+.headbg{
+    margin:0 8px
+    /*display:none*/
+}
+ a:link,a:focus{
+     color:#00c
+}
+ a:active{
+     color:red
+}

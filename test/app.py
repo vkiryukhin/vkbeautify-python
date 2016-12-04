@@ -16,8 +16,11 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print('usage: app.py -i <inputfile> -o <outputfile> -a <action>')
-            print('       beautify: no  <action> ')
-            print('       minify:   set <action> to 1')
+            print('       to beautify: no  <action> ')
+            print('       to minify:   set <action> to min')
+            print('')
+            print('       Example: python3 app.py -i basic.json -o result.json -a min')
+            print('')
 
             sys.exit()
         elif opt in ("-i", "--ifile"):
@@ -35,36 +38,38 @@ def main(argv):
 
     if inputfile[-4:] == '.css':
         if outputfile:
-            if action: #minify
+            if action == 'min':
                 print(vkb.css.min(inputfile, outputfile, True))
             else:
                 print(vkb.css(inputfile, outputfile))
         else:
-            if action: #minify
+            if action == 'min':
                 print(vkb.css.min(inputfile, True))
             else:
                 print(vkb.css(inputfile))
 
+
     if inputfile[-5:] == '.json':
         if outputfile:
-            if action: #minify
+            if action == 'min':
                 print(vkb.json.min(inputfile, outputfile))
             else:
                 print(vkb.json(inputfile, outputfile))
         else:
-            if action: #minify
+            if action == 'min':
                 print(vkb.json.min(inputfile))
             else:
                 print(vkb.json(inputfile))
 
-    if inputfile[-4:] == '.css':
+
+    if inputfile[-4:] == '.xml':
         if outputfile:
-            if action: #minify
+            if action == 'min':
                 print(vkb.xml.min(inputfile, outputfile, False))
             else:
                 print(vkb.xml(inputfile, outputfile))
         else:
-            if action: #minify
+            if action == 'min':
                 print(vkb.xml.min(inputfile, False))
             else:
                 print(vkb.xml(inputfile))
