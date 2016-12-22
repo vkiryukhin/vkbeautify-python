@@ -1,3 +1,15 @@
+#
+# vkBeautify - python plugin to pretty-print or minify text in XML, JSON and CSS formats.
+#
+# Version - 0.3.0
+# Copyright (c) 2016 Vadim Kiryukhin
+# vkiryukhin @ gmail.com
+# https://github.com/vkiryukhin/vkbeautify-python
+#
+# MIT license:
+#   http://www.opensource.org/licenses/mit-license.php
+#
+
 import sys, re, os.path
 
 ##########################################
