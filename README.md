@@ -12,12 +12,16 @@ Python  plugin to **pretty-print** or **minify** text in following formats:
 
 **License:** MIT: [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
+   **Installation**
+```
+        pip install vkbeautify
+```
 
    **Pretty print**
 ```
-        vkbeautify.xml(src [,dest, [,tab_size]);
-        vkbeautify.json(src [,dest, [,tab_size]);
-        vkbeautify.css(src [,dest, [,tab_size]);
+        vkbeautify.xml( src [,dest [,tab_size]);
+        vkbeautify.json(src [,dest [,tab_size]);
+        vkbeautify.css( src [,dest [,tab_size]);
 
 
         @src:       XML string or path to XML file to beautify;
@@ -30,9 +34,9 @@ Python  plugin to **pretty-print** or **minify** text in following formats:
 
   **Minify**
 ```
-        vkbeautify.xml.min(src [,dest [,preserve_comments]]);
+        vkbeautify.xml.min( src [,dest [,preserve_comments]]);
         vkbeautify.json.min(src [,dest]);
-        vkbeautify.css.min(src [,dest [,preserve_comments]]);
+        vkbeautify.css.min( src [,dest [,preserve_comments]]);
 
         @src:   XML string or path to XML file to minify;
         @dest:  path to file to save beautified data (optional)
